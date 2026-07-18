@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAT Score 1500+ • Digital Practice • Pilot</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+body { font-family: 'Inter', system_ui, sans-serif; }
+.font-display { font-family: 'Space Grotesk', 'Inter', sans-serif; font-weight: 600; }
+.sat-question { font-size: 1.05rem; line-height: 1.6; }
+.option { transition: all 0.2s ease; }
+.option:hover { background-color: #f8fafc; transform: translateX(4px); }
+.option.selected { background-color: #dbeafe; border-color: #3b82f6; }
+.timer { font-variant-numeric: tabular-nums; }
+
+.nav-rw1 { background-color: #7C3AED; color: white; }
+.nav-rw2 { background-color: #059669; color: white; }
+.nav-math1 { background-color: #F59E0B; color: white; }
+.nav-math2 { background-color: #EC4899; color: white; }
+</style>
+</head>
+<body class="bg-slate-50">
+
+<!-- Header -->
+<div class="bg-white border-b border-slate-200 sticky top-0 z-50">
+<div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+<div class="flex items-center gap-x-3">
+<div class="w-11 h-11 bg-[#1E3A5F] rounded-2xl flex items-center justify-center">
+<i class="fa-solid fa-graduation-cap text-white text-3xl"></i>
+</div>
+<div>
+<h1 class="font-display text-3xl font-bold text-[#1E3A5F]">SAT Score 1500+</h1>
+<p class="text-xs text-slate-500 -mt-1">Digital Practice • Pilot</p>
+</div>
+</div>
+
+<div class="flex items-center gap-x-2">
+<div class="hidden md:flex items-center bg-slate-100 rounded-full px-3 py-1 text-sm">
+<i class="fa-solid fa-user text-[#1E3A5F] mr-2"></i>
+<span class="font-medium text-slate-700">Jacob</span>
+</div>
+<button onclick="resetAllData()" class="flex items-center gap-x-2 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-2xl transition-colors">
+<i class="fa-solid fa-trash mr-1"></i>
+<span class="hidden md:inline">Reset Data</span>
+</button>
+</div>
+</div>
+</div>
+
+<!-- Navigation -->
+<div class="max-w-5xl mx-auto px-4 pt-6">
+<div class="flex flex-wrap gap-2 mb-6 bg-white p-1.5 rounded-3xl shadow-sm border border-slate-200">
+<button onclick="showSection('dashboard')" class="nav-item flex-1 md:flex-none px-5 py-2.5 text-sm font-semibold rounded-2xl flex items-center justify-center gap-x-2 nav-active" id="nav-dashboard">
+<i class="fa-solid fa-chart-line"></i><span>Dashboard</span>
+</button>
+<button onclick="showSection('rw1')" class="nav-item flex-1 md:flex-none px-5 py-2.5 text-sm font-semibold rounded-2xl flex items-center justify-center gap-x-2 nav-rw1" id="nav-rw1">
+<i class="fa-solid fa-book"></i><span>RW Module 1</span>
+</button>
+<button onclick="showSection('rw2')" class="nav-item flex-1 md:flex-none px-5 py-2.5 text-sm font-semibold rounded-2xl flex items-center justify-center gap-x-2 nav-rw2" id="nav-rw2">
+<i class="fa-solid fa-book"></i><span>RW Module 2</span>
+</button>
+<button onclick="showSection('math1')" class="nav-item flex-1 md:flex-none px-5 py-2.5 text-sm font-semibold rounded-2xl flex items-center justify-center gap-x-2 nav-math1" id="nav-math1">
+<i class="fa-solid fa-calculator"></i><span>Math Module 1</span>
+</button>
+<button onclick="showSection('math2')" class="nav-item flex-1 md:flex-none px-5 py-2.5 text-sm font-semibold rounded-2xl flex items-center justify-center gap-x-2 nav-math2" id="nav-math2">
+<i class="fa-solid fa-calculator"></i><span>Math Module 2</span>
+</button>
+<button onclick="showSection('estimator')" class="nav-item flex-1 md:flex-none px-5 py-2.5 text-sm font-semibold rounded-2xl flex items-center justify-center gap-x-2" id="nav-estimator">
+<i class="fa-solid fa-chart-bar"></i><span>Score Estimator</span>
+</button>
+<button onclick="showSection('error-log')" class="nav-item flex-1 md:flex-none px-5 py-2.5 text-sm font-semibold rounded-2xl flex items-center justify-center gap-x-2" id="nav-error-log">
+<i class="fa-solid fa-list-check"></i><span>Error Log</span>
+</button>
+</div>
+</div>
+
+<div class="max-w-5xl mx-auto px-4 pb-12">
+
+<!-- DASHBOARD -->
+<div id="section-dashboard" class="section">
+<div class="mb-6">
+<h2 class="text-3xl font-bold text-[#1E3A5F]">Welcome back, Jacob</h2>
+<p class="text-slate-600 mt-1">Your journey to 1500+ starts here. Keep practicing.</p>
+</div>
+
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+<div class="bg-white border border-slate-200 rounded-3xl p-5">
+<div class="text-sm text-slate-500">Total Attempts</div>
+<div id="total-attempts" class="text-4xl font-bold text-[#1E3A5F] mt-1">0</div>
+</div>
+<div class="bg-white border border-slate-200 rounded-3xl p-5">
+<div class="text-sm text-slate-500">Average Score</div>
+<div id="avg-score" class="text-4xl font-bold text-[#1E3A5F] mt-1">0%</div>
+</div>
+<div class="bg-white border border-slate-200 rounded-3xl p-5">
+<div class="text-sm text-slate-500">Best Score</div>
+<div id="best-score" class="text-4xl font-bold text-emerald-600 mt-1">0%</div>
+</div>
+<div class="bg-white border border-slate-200 rounded-3xl p-5">
+<div class="text-sm text-slate-500">Current Streak</div>
+<div id="current-streak" class="text-4xl font-bold text-orange-600 mt-1">0 days</div>
+</div>
+</div>
+
+<div class="bg-white border border-slate-200 rounded-3xl p-6 mb-8">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-semibold text-lg">Recent Activity</h3>
+</div>
+<div id="recent-activity" class="space-y-3 text-sm">
+<div class="text-sm text-slate-400 py-2">No attempts yet. Start a module above!</div>
+</div>
+</div>
+
+<!-- Quick Start a Module -->
+<div>
+<h3 class="font-semibold text-lg mb-3">Quick Start a Module</h3>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+<button onclick="startModule('rw1')" class="bg-white hover:bg-slate-50 border border-slate-200 rounded-3xl p-4 text-left transition-all active:scale-[0.985]">
+<div class="flex items-center gap-x-3">
+<div class="w-9 h-9 bg-purple-100 rounded-2xl flex items-center justify-center"><i class="fa-solid fa-book text-purple-600"></i></div>
+<div><div class="font-semibold">RW Module 1</div><div class="text-xs text-slate-500">5 random questions</div></div>
+</div>
+</button>
+<button onclick="startModule('rw2')" class="bg-white hover:bg-slate-50 border border-slate-200 rounded-3xl p-4 text-left transition-all active:scale-[0.985]">
+<div class="flex items-center gap-x-3">
+<div class="w-9 h-9 bg-emerald-100 rounded-2xl flex items-center justify-center"><i class="fa-solid fa-book text-emerald-600"></i></div>
+<div><div class="font-semibold">RW Module 2</div><div class="text-xs text-slate-500">5 random questions</div></div>
+</div>
+</button>
+<button onclick="startModule('math1')" class="bg-white hover:bg-slate-50 border border-slate-200 rounded-3xl p-4 text-left transition-all active:scale-[0.985]">
+<div class="flex items-center gap-x-3">
+<div class="w-9 h-9 bg-yellow-100 rounded-2xl flex items-center justify-center"><i class="fa-solid fa-calculator text-yellow-600"></i></div>
+<div><div class="font-semibold">Math Module 1</div><div class="text-xs text-slate-500">5 random questions</div></div>
+</div>
+</button>
+<button onclick="startModule('math2')" class="bg-white hover:bg-slate-50 border border-slate-200 rounded-3xl p-4 text-left transition-all active:scale-[0.985]">
+<div class="flex items-center gap-x-3">
+<div class="w-9 h-9 bg-pink-100 rounded-2xl flex items-center justify-center"><i class="fa-solid fa-calculator text-pink-600"></i></div>
+<div><div class="font-semibold">Math Module 2</div><div class="text-xs text-slate-500">5 random questions</div></div>
+</div>
+</button>
+</div>
+</div>
+</div>
+
+<!-- QUIZ SECTION -->
+<div id="section-quiz" class="section hidden">
+<div class="flex items-center justify-between mb-4">
+<div>
+<h2 id="quiz-title" class="text-2xl font-bold text-[#1E3A5F]"></h2>
+<div id="quiz-subtitle" class="text-slate-500"></div>
+</div>
+<div class="flex items-center gap-x-4">
+<div class="bg-white border border-slate-200 rounded-2xl px-4 py-1.5 flex items-center gap-x-2">
+<i class="fa-solid fa-clock text-orange-500"></i>
+<span id="timer" class="font-mono text-xl font-semibold text-orange-600">32:00</span>
+</div>
+<button onclick="endQuizEarly()" class="px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-2xl flex items-center gap-x-2">
+<i class="fa-solid fa-times"></i><span>End Early</span>
+</button>
+</div>
+</div>
+
+<div class="mb-4">
+<div class="flex justify-between text-sm mb-1.5 px-1">
+<div id="question-progress" class="font-medium text-slate-600"></div>
+</div>
+<div class="h-2 bg-slate-100 rounded-full overflow-hidden">
+<div id="progress-bar" class="h-2 bg-[#1E3A5F] transition-all duration-300" style="width: 0%"></div>
+</div>
+</div>
+
+<div id="question-area" class="bg-white border border-slate-200 rounded-3xl p-6 md:p-8 mb-6">
+<div id="question-text" class="sat-question text-lg font-medium mb-6"></div>
+<div id="options-container" class="space-y-3"></div>
+</div>
+
+<div class="flex justify-between items-center">
+<button onclick="previousQuestion()" id="prev-btn" class="px-6 py-3 rounded-2xl font-semibold flex items-center gap-x-2 text-slate-600 hover:bg-slate-100 disabled:opacity-40">
+<i class="fa-solid fa-arrow-left"></i><span>Previous</span>
+</button>
+<button onclick="nextQuestion()" id="next-btn" class="px-8 py-3 bg-[#1E3A5F] hover:bg-[#2E5A8F] text-white rounded-2xl font-semibold flex items-center gap-x-2">
+<span id="next-btn-text">Next Question</span>
+<i class="fa-solid fa-arrow-right"></i>
+</button>
+</div>
+</div>
+
+<!-- RESULTS -->
+<div id="section-results" class="section hidden">
+<div class="max-w-xl mx-auto text-center">
+<div class="mx-auto w-28 h-28 mb-6">
+<svg class="w-28 h-28" viewBox="0 0 120 120">
+<circle cx="60" cy="60" r="54" fill="none" stroke="#e2e8f0" stroke-width="12"/>
+<circle id="score-circle" cx="60" cy="60" r="54" fill="none" stroke="#1E3A5F" stroke-width="12" stroke-dasharray="339.292" stroke-dashoffset="339.292"/>
+</svg>
+<div class="mt-[-92px]"><div id="final-score" class="text-6xl font-bold text-[#1E3A5F]"></div></div>
+</div>
+<h3 id="results-title" class="text-3xl font-bold mb-2"></h3>
+<p id="results-subtitle" class="text-slate-600 mb-8"></p>
+
+<div class="bg-white border border-slate-200 rounded-3xl p-6 mb-8 text-left">
+<h4 class="font-semibold mb-4">Review Your Mistakes</h4>
+<div id="wrong-answers-list" class="space-y-4"></div>
+</div>
+
+<div class="flex gap-3 justify-center">
+<button onclick="retakeCurrentModule()" class="px-8 py-3.5 bg-white border border-slate-300 hover:bg-slate-50 text-[#1E3A5F] font-semibold rounded-2xl flex items-center gap-x-2">
+<i class="fa-solid fa-redo"></i><span>Retake Module</span>
+</button>
+<button onclick="showSection('dashboard')" class="px-8 py-3.5 bg-[#1E3A5F] hover:bg-[#2E5A8F] text-white font-semibold rounded-2xl flex items-center gap-x-2">
+<span>Back to Dashboard</span>
+</button>
+</div>
+</div>
+</div>
+
+<!-- SCORE ESTIMATOR -->
+<div id="section-estimator" class="section hidden">
+<div class="max-w-2xl mx-auto">
+<div class="mb-6">
+<h2 class="text-3xl font-bold text-[#1E3A5F]">Digital SAT Score Estimator</h2>
+<p class="text-slate-600 mt-1">See roughly what your performance would look like on the real test.</p>
+</div>
+<div class="bg-white border border-slate-200 rounded-3xl p-8">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div>
+<h4 class="font-semibold text-lg mb-4">Reading & Writing</h4>
+<div class="space-y-4">
+<div><label class="block text-sm font-medium mb-1">Module 1 Accuracy</label>
+<input type="range" id="rw-m1" min="0" max="100" value="75" class="w-full accent-[#1E3A5F]" oninput="updateEstimator()">
+<div class="text-right text-sm font-mono" id="rw-m1-value">75%</div>
+</div>
+<div><label class="block text-sm font-medium mb-1">Module 2 Accuracy</label>
+<input type="range" id="rw-m2" min="0" max="100" value="70" class="w-full accent-[#1E3A5F]" oninput="updateEstimator()">
+<div class="text-right text-sm font-mono" id="rw-m2-value">70%</div>
+</div>
+</div>
+</div>
+<div>
+<h4 class="font-semibold text-lg mb-4">Math</h4>
+<div class="space-y-4">
+<div><label class="block text-sm font-medium mb-1">Module 1 Accuracy</label>
+<input type="range" id="math-m1" min="0" max="100" value="75" class="w-full accent-[#1E3A5F]" oninput="updateEstimator()">
+<div class="text-right text-sm font-mono" id="math-m1-value">75%</div>
+</div>
+<div><label class="block text-sm font-medium mb-1">Module 2 Accuracy</label>
+<input type="range" id="math-m2" min="0" max="100" value="70" class="w-full accent-[#1E3A5F]" oninput="updateEstimator()">
+<div class="text-right text-sm font-mono" id="math-m2-value">70%</div>
+</div>
+</div>
+</div>
+</div>
+<button onclick="calculateEstimatedScore()" class="w-full mt-8 py-4 bg-[#1E3A5F] hover:bg-[#2E5A8F] text-white font-semibold rounded-2xl text-lg">
+Estimate My Digital SAT Score
+</button>
+<div id="estimator-results" class="hidden mt-8">
+<div class="bg-slate-50 border border-slate-200 rounded-3xl p-6">
+<div class="grid grid-cols-3 gap-4 text-center">
+<div><div class="text-sm text-slate-500">Reading & Writing</div><div id="est-rw-score" class="text-4xl font-bold text-[#1E3A5F]"></div></div>
+<div><div class="text-sm text-slate-500">Math</div><div id="est-math-score" class="text-4xl font-bold text-[#1E3A5F]"></div></div>
+<div><div class="text-sm text-slate-500">Total Score</div><div id="est-total-score" class="text-4xl font-bold text-emerald-600"></div></div>
+</div>
+<div id="estimator-feedback" class="mt-6 p-4 bg-white rounded-2xl text-sm"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ERROR LOG -->
+<div id="section-error-log" class="section hidden">
+<div class="flex items-center justify-between mb-4">
+<div><h2 class="text-2xl font-bold text-[#1E3A5F]">Error Log</h2><p class="text-slate-600">Track and review every mistake</p></div>
+<button onclick="showAddErrorModal()" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-2xl flex items-center gap-x-2">
+<i class="fa-solid fa-plus"></i><span>Log New Mistake</span>
+</button>
+</div>
+<div class="bg-white border border-slate-200 rounded-3xl p-6">
+<div id="error-log-list" class="space-y-4"></div>
+</div>
+</div>
+</div>
+
+<script>
+let appData = { attempts: [], errorLogs: [] };
+let currentModuleKey = null;
+let currentQuestions = [];
+let currentQuestionIndex = 0;
+let userAnswers = [];
+let timerInterval = null;
+let timeLeft = 0;
+
+// ==================== QUESTION POOLS ====================
+const questionPools = {
+rw1: [
+{ q: "Despite the setbacks, the engineers remained sanguine about the bridge’s completion.", options: ["A) Bloodthirsty", "B) Optimistic", "C) Indifferent", "D) Skeptical"], correct: 1, explanation: "Sanguine means optimistic or hopeful. Real-life: Staying positive under pressure helps teams stay motivated." },
+{ q: "The committee’s decision was not arbitrary; it was the result of a _____ review of every proposal.", options: ["A) cursory", "B) meticulous", "C) hasty", "D) tentative"], correct: 1, explanation: "Meticulous means extremely careful and thorough. Real-life: Meticulous reviews prevent costly mistakes in business and law." },
+{ q: "Neither the scientists nor the director ___ satisfied with the results.", options: ["A) were", "B) was", "C) have been", "D) are being"], correct: 1, explanation: "With 'neither...nor', the verb agrees with the closer subject ('director'). Real-life: Proper grammar makes professional writing look polished." },
+{ q: "The new policy was implemented to _____ the growing concerns about data privacy.", options: ["A) exacerbate", "B) mitigate", "C) ignore", "D) amplify"], correct: 1, explanation: "Mitigate means to make less severe. Real-life: Companies mitigate risks through better policies and training." },
+{ q: "Her explanation was so _____ that even the experts were confused.", options: ["A) lucid", "B) opaque", "C) concise", "D) eloquent"], correct: 1, explanation: "Opaque means difficult to understand. Real-life: Clear communication is critical in science, law, and business." },
+{ q: "The speaker’s argument was weakened by several _____ assumptions.", options: ["A) cogent", "B) tenuous", "C) robust", "D) irrefutable"], correct: 1, explanation: "Tenuous means weak or shaky. Real-life: Weak assumptions can destroy arguments in debates and research." }
+],
+rw2: [
+{ q: "The author’s tone in the passage can best be described as _____ toward the subject.", options: ["A) apathetic", "B) ambivalent", "C) laudatory", "D) cynical"], correct: 2, explanation: "Laudatory means expressing praise. Real-life: Understanding tone is critical when reading emails, reports, and news." },
+{ q: "Although the evidence was _____, the jury still had doubts.", options: ["A) compelling", "B) flimsy", "C) irrelevant", "D) fabricated"], correct: 0, explanation: "Compelling means convincing. Real-life: Strong evidence is needed in court, science, and decision-making." },
+{ q: "The manager tried to _____ the conflict before it escalated.", options: ["A) provoke", "B) defuse", "C) ignite", "D) prolong"], correct: 1, explanation: "Defuse means to make a situation less tense. Real-life: Good leaders defuse conflicts quickly in teams." }
+],
+math1: [
+{ q: "If 3x + 7 = 22, what is the value of x?", options: ["A) 3", "B) 5", "C) 7", "D) 15"], correct: 1, explanation: "Subtract 7: 3x = 15. Divide by 3: x = 5. Real-life: Linear equations are used in budgeting and planning." },
+{ q: "What is the slope of the line through points (2, 3) and (6, 11)?", options: ["A) 1", "B) 2", "C) 4", "D) 8"], correct: 1, explanation: "Slope = (11-3)/(6-2) = 2. Real-life: Slope is used in rates, speed, and growth calculations." }
+],
+math2: [
+{ q: "A circle has a radius of 5. What is its area?", options: ["A) 10π", "B) 25π", "C) 50π", "D) 100π"], correct: 1, explanation: "Area = πr² = 25π. Real-life: Used in design, engineering, and space calculations." },
+{ q: "If f(x) = 2x² - 3x + 4, what is f(3)?", options: ["A) 13", "B) 15", "C) 19", "D) 22"], correct: 0, explanation: "f(3) = 2(9) - 9 + 4 = 13. Real-life: Functions model real-world situations like cost and revenue." }
+]
+};
+
+function getRandomQuestions(pool, count) {
+const shuffled = [...pool].sort(() => 0.5 - Math.random());
+return shuffled.slice(0, count);
+}
+
+function loadData() {
+const saved = localStorage.getItem('grokSatData');
+if (saved) appData = JSON.parse(saved);
+}
+
+function saveData() {
+localStorage.setItem('grokSatData', JSON.stringify(appData));
+updateDashboard();
+}
+
+function updateDashboard() {
+const attempts = appData.attempts;
+document.getElementById('total-attempts').innerHTML = attempts.length;
+if (attempts.length === 0) {
+document.getElementById('avg-score').innerHTML = "—";
+document.getElementById('best-score').innerHTML = "—";
+document.getElementById('current-streak').innerHTML = "0 days";
+document.getElementById('recent-activity').innerHTML = `<div class="text-sm text-slate-400 py-2">No attempts yet. Start a module above!</div>`;
+return;
+}
+const avg = Math.round(attempts.reduce((sum, a) => sum + a.score, 0) / attempts.length);
+document.getElementById('avg-score').innerHTML = avg + "%";
+const best = Math.max(...attempts.map(a => a.score));
+document.getElementById('best-score').innerHTML = best + "%";
+}
+
+function showSection(section) {
+document.querySelectorAll('.section').forEach(el => el.classList.add('hidden'));
+document.querySelectorAll('[id^="nav-"]').forEach(el => el.classList.remove('nav-active'));
+
+if (section === 'dashboard') {
+document.getElementById('section-dashboard').classList.remove('hidden');
+document.getElementById('nav-dashboard').classList.add('nav-active');
+updateDashboard();
+} else if (section === 'estimator') {
+document.getElementById('section-estimator').classList.remove('hidden');
+document.getElementById('nav-estimator').classList.add('nav-active');
+} else if (section === 'error-log') {
+document.getElementById('section-error-log').classList.remove('hidden');
+document.getElementById('nav-error-log').classList.add('nav-active');
+} else if (['rw1','rw2','math1','math2'].includes(section)) {
+document.getElementById('section-quiz').classList.remove('hidden');
+startModule(section);
+}
+}
+
+function startModule(moduleKey) {
+currentModuleKey = moduleKey;
+const pool = questionPools[moduleKey] || [];
+currentQuestions = getRandomQuestions(pool, 5);
+currentQuestionIndex = 0;
+userAnswers = new Array(currentQuestions.length).fill(null);
+timeLeft = 32 * 60;
+
+document.getElementById('quiz-title').innerHTML = moduleKey.toUpperCase().replace('RW', 'Reading & Writing ').replace('MATH', 'Math ');
+document.getElementById('quiz-subtitle').innerHTML = `5 random questions • 32 min`;
+
+if (currentQuestions.length === 0) {
+alert("This module doesn't have questions yet.");
+showSection('dashboard');
+return;
+}
+
+startTimer();
+showQuestion();
+}
+
+function startTimer() {
+clearInterval(timerInterval);
+updateTimerDisplay();
+timerInterval = setInterval(() => {
+timeLeft--;
+updateTimerDisplay();
+if (timeLeft <= 0) {
+clearInterval(timerInterval);
+finishQuiz();
+}
+}, 1000);
+}
+
+function updateTimerDisplay() {
+const min = Math.floor(timeLeft / 60);
+const sec = timeLeft % 60;
+document.getElementById('timer').innerHTML = `${min}:${sec < 10 ? '0' : ''}${sec}`;
+}
+
+function showQuestion() {
+const container = document.getElementById('options-container');
+container.innerHTML = '';
+const q = currentQuestions[currentQuestionIndex];
+
+document.getElementById('question-text').innerHTML = q.q;
+
+q.options.forEach((option, index) => {
+const div = document.createElement('div');
+div.className = `option border border-slate-200 rounded-2xl p-4 cursor-pointer flex items-center gap-x-3 ${userAnswers[currentQuestionIndex] === index ? 'selected border-blue-400 bg-blue-50' : ''}`;
+div.innerHTML = `
+<div class="w-6 h-6 flex-shrink-0 border border-slate-300 rounded-full flex items-center justify-center text-xs font-bold">${String.fromCharCode(65 + index)}</div>
+<div class="flex-1">${option}</div>
+`;
+div.onclick = () => selectOption(index, div);
+container.appendChild(div);
+});
+
+updateProgress();
+updateNavButtons();
+}
+
+function selectOption(index, element) {
+document.querySelectorAll('#options-container .option').forEach(el => el.classList.remove('selected', 'border-blue-400', 'bg-blue-50'));
+element.classList.add('selected', 'border-blue-400', 'bg-blue-50');
+userAnswers[currentQuestionIndex] = index;
+}
+
+function updateProgress() {
+const progress = ((currentQuestionIndex) / currentQuestions.length) * 100;
+document.getElementById('progress-bar').style.width = `${progress}%`;
+document.getElementById('question-progress').innerHTML = `Question ${currentQuestionIndex + 1} of ${currentQuestions.length}`;
+}
+
+function updateNavButtons() {
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const nextText = document.getElementById('next-btn-text');
+
+prevBtn.disabled = currentQuestionIndex === 0;
+
+if (currentQuestionIndex === currentQuestions.length - 1) {
+nextText.innerHTML = 'Finish & See Score';
+nextBtn.onclick = finishQuiz;
+} else {
+nextText.innerHTML = 'Next Question';
+nextBtn.onclick = nextQuestion;
+}
+}
+
+function nextQuestion() {
+if (currentQuestionIndex < currentQuestions.length - 1) {
+currentQuestionIndex++;
+showQuestion();
+}
+}
+
+function previousQuestion() {
+if (currentQuestionIndex > 0) {
+currentQuestionIndex--;
+showQuestion();
+}
+}
+
+function finishQuiz() {
+clearInterval(timerInterval);
+let correctCount = 0;
+const wrongAnswers = [];
+
+currentQuestions.forEach((q, index) => {
+if (userAnswers[index] === q.correct) correctCount++;
+else {
+wrongAnswers.push({
+question: q.q,
+userAnswer: userAnswers[index] !== null ? q.options[userAnswers[index]] : "No answer",
+correctAnswer: q.options[q.correct],
+explanation: q.explanation
+});
+}
+});
+
+const score = Math.round((correctCount / currentQuestions.length) * 100);
+const attempt = { date: new Date().toISOString(), module: currentModuleKey, score: score, correct: correctCount, total: currentQuestions.length };
+appData.attempts.push(attempt);
+saveData();
+showResults(score, wrongAnswers);
+}
+
+function showResults(score, wrongAnswers) {
+document.querySelectorAll('.section').forEach(el => el.classList.add('hidden'));
+document.getElementById('section-results').classList.remove('hidden');
+
+const circle = document.getElementById('score-circle');
+circle.style.strokeDashoffset = 339.292 * (1 - score / 100);
+
+document.getElementById('final-score').innerHTML = score;
+document.getElementById('results-title').innerHTML = `${score}% — Great work!`;
+document.getElementById('results-subtitle').innerHTML = `You got ${wrongAnswers.length} out of ${currentQuestions.length} correct.`;
+
+const container = document.getElementById('wrong-answers-list');
+container.innerHTML = wrongAnswers.length === 0
+? `<div class="text-emerald-600 font-medium">Perfect score! Excellent work.</div>`
+: wrongAnswers.map((item, i) => `
+<div class="border border-red-100 bg-red-50 rounded-2xl p-4">
+<div class="font-medium text-sm mb-1">Question ${i+1}</div>
+<div class="text-sm mb-2">${item.question}</div>
+<div class="text-xs">
+<span class="text-red-600">Your answer:</span> ${item.userAnswer}<br>
+<span class="text-emerald-600">Correct:</span> ${item.correctAnswer}
+</div>
+<div class="mt-3 text-xs bg-white p-3 rounded-xl text-slate-600">${item.explanation}</div>
+</div>
+`).join('');
+}
+
+function retakeCurrentModule() {
+if (currentModuleKey) startModule(currentModuleKey);
+}
+
+function endQuizEarly() {
+if (confirm("End the quiz early?")) {
+clearInterval(timerInterval);
+showSection('dashboard');
+}
+}
+
+function updateEstimator() {
+['rw-m1','rw-m2','math-m1','math-m2'].forEach(id => {
+const el = document.getElementById(id);
+const val = document.getElementById(id + '-value');
+if (el && val) val.textContent = el.value + '%';
+});
+}
+
+function calculateEstimatedScore() {
+const rwM1 = parseInt(document.getElementById('rw-m1').value);
+const rwM2 = parseInt(document.getElementById('rw-m2').value);
+const mathM1 = parseInt(document.getElementById('math-m1').value);
+const mathM2 = parseInt(document.getElementById('math-m2').value);
+
+let rwScore = (rwM1 >= 78) ? 200 + ((rwM1 + rwM2) / 2 / 100 * 580) : 200 + ((rwM1 + rwM2) / 2 / 100 * 450);
+let mathScore = (mathM1 >= 78) ? 200 + ((mathM1 + mathM2) / 2 / 100 * 580) : 200 + ((mathM1 + mathM2) / 2 / 100 * 450);
+
+rwScore = Math.round(Math.max(200, Math.min(800, rwScore)));
+mathScore = Math.round(Math.max(200, Math.min(800, mathScore)));
+
+document.getElementById('est-rw-score').innerHTML = rwScore;
+document.getElementById('est-math-score').innerHTML = mathScore;
+document.getElementById('est-total-score').innerHTML = rwScore + mathScore;
+document.getElementById('estimator-results').classList.remove('hidden');
+}
+
+function resetAllData() {
+if (confirm("Reset all data?")) {
+localStorage.removeItem('grokSatData');
+location.reload();
+}
+}
+
+function initializeApp() {
+loadData();
+updateDashboard();
+document.getElementById('section-dashboard').classList.remove('hidden');
+document.getElementById('nav-dashboard').classList.add('nav-active');
+
+['rw-m1','rw-m2','math-m1','math-m2'].forEach(id => {
+const el = document.getElementById(id);
+if (el) el.oninput = updateEstimator;
+});
+}
+
+window.onload = initializeApp;
+</script>
+</body>
+</html>
